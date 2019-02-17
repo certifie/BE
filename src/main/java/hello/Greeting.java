@@ -14,10 +14,7 @@
  */
 package hello;
 
-/**
- * @author Follett Software Company
- * @copyright 2017
- */
+
 public class Greeting {
     private final long id;
     private final String content;
