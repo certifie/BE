@@ -12,22 +12,13 @@
  *
  * ====================================================================
  */
-package hello;
+package ua.andrew.certifie.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import ua.andrew.certifie.model.Note;
 
-public class Greeting {
-    private final long id;
-    private final String content;
+@Repository
+public interface NoteRepository extends JpaRepository<Note, Long> {
 
-    public Greeting(long id, String content) {
-        this.id = id;
-        this.content = content;
-    }
-
-    public long getId() {
-        return id;
-    }
-    public String getContent() {
-        return content;
-    }
 }
