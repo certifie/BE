@@ -18,6 +18,7 @@ import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,20 +34,24 @@ import ua.andrew.certifie.repository.NoteRepository;
 @RestController
 @RequestMapping("/api")
 public class NoteController {
+    private final String CROSS_ORIGIN = "http://localhost:4200";
 
     @Autowired
     NoteRepository noteRepository;
 
+    @CrossOrigin(origins = CROSS_ORIGIN)
     @GetMapping("/notes")
     public List<Note> getAllNotes() {
         return noteRepository.findAll();
     }
 
+    @CrossOrigin(origins = CROSS_ORIGIN)
     @PostMapping("/notes")
     public Note createNote(@Valid @RequestBody Note note) {
         return noteRepository.save(note);
     }
 
+    @CrossOrigin(origins = CROSS_ORIGIN)
     @GetMapping("/notes/{id}")
     public Note getNoteById(@PathVariable(value = "id") Long noteId) {
 
@@ -54,6 +59,7 @@ public class NoteController {
                 .orElseThrow(() -> new ResourceNotFoundException("Note", "id", noteId));
     }
 
+    @CrossOrigin(origins = CROSS_ORIGIN)
     @PutMapping("/notes/{id}")
     public Note updateNote(@PathVariable(value = "id") Long noteId,
                            @Valid @RequestBody Note noteDetails) {
@@ -67,6 +73,7 @@ public class NoteController {
         return noteRepository.save(note);
     }
 
+    @CrossOrigin(origins = CROSS_ORIGIN)
     @DeleteMapping("/notes/{id}")
     public ResponseEntity<?> deleteNote(@PathVariable(value = "id") Long noteId) {
         Note note = noteRepository.findById(noteId)
