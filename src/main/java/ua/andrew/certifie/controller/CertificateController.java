@@ -57,4 +57,14 @@ public class CertificateController {
         return certificateRepository.findById(certificateId)
                 .orElseThrow(() -> new ResourceNotFoundException("Certificate", "id", certificateId));
     }
+
+    @DeleteMapping("/certificates/{id}")
+    public ResponseEntity<?> deleteCertificateById(@PathVariable(value = "id") Long certificateId) {
+        Certificate certificate = certificateRepository.findById(certificateId)
+                .orElseThrow(() -> new ResourceNotFoundException("Certificate", "id", certificateId));
+
+        certificateRepository.delete(certificate);
+
+        return ResponseEntity.ok().build();
+    }
 }
