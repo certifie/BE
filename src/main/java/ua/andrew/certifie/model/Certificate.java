@@ -15,8 +15,8 @@
 package ua.andrew.certifie.model;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
-import java.util.Calendar;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
@@ -24,6 +24,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
@@ -39,19 +40,19 @@ public class Certificate implements Serializable {
     private String title;
 
     @NotBlank
-    private Calendar issueDate;
-
-    @NotBlank
-    private Calendar expiryDate;
-
-    @NotBlank
     private String issuer;
+
+    @NotBlank
+    private String issueDate;
+
+    @NotNull
+    private String expiryDate;
 
     @NotBlank
     private String serialNumber;
 
-    @NotBlank
-    private Boolean isExpiry;
+    @JsonProperty
+    private boolean isExpiry;
 
     @NotBlank
     private String description;
@@ -68,18 +69,6 @@ public class Certificate implements Serializable {
     public void setTitle(String title) {
         this.title = title;
     }
-    public Calendar getIssueDate() {
-        return issueDate;
-    }
-    public void setIssueDate(Calendar issueDate) {
-        this.issueDate = issueDate;
-    }
-    public Calendar getExpiryDate() {
-        return expiryDate;
-    }
-    public void setExpiryDate(Calendar expiryDate) {
-        this.expiryDate = expiryDate;
-    }
     public String getIssuer() {
         return issuer;
     }
@@ -91,12 +80,6 @@ public class Certificate implements Serializable {
     }
     public void setSerialNumber(String serialNumber) {
         this.serialNumber = serialNumber;
-    }
-    public Boolean getExpiry() {
-        return isExpiry;
-    }
-    public void setExpiry(Boolean isExpiry) {
-        this.isExpiry = isExpiry;
     }
     public String getDescription() {
         return description;
@@ -115,5 +98,23 @@ public class Certificate implements Serializable {
     }
     public void setId(Long id) {
         this.id = id;
+    }
+    public String getIssueDate() {
+        return issueDate;
+    }
+    public void setIssueDate(String issueDate) {
+        this.issueDate = issueDate;
+    }
+    public String getExpiryDate() {
+        return expiryDate;
+    }
+    public void setExpiryDate(String expiryDate) {
+        this.expiryDate = expiryDate;
+    }
+    public boolean setExpiry() {
+        return isExpiry;
+    }
+    public void setExpiry(boolean expiry) {
+        isExpiry = expiry;
     }
 }

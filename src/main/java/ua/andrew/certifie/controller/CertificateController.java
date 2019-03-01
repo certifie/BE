@@ -16,10 +16,16 @@ package ua.andrew.certifie.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ua.andrew.certifie.exception.ResourceNotFoundException;
 import ua.andrew.certifie.model.Certificate;
 import ua.andrew.certifie.repository.CertificateRepository;
 
@@ -33,9 +39,22 @@ public class CertificateController {
     @Autowired
     CertificateRepository certificateRepository;
 
-    @CrossOrigin(origins = CROSS_ORIGIN)
     @GetMapping("/certificates")
+    @CrossOrigin(origins = CROSS_ORIGIN)
     public List<Certificate> getAllCertificates() {
         return certificateRepository.findAll();
+    }
+
+    @PostMapping("/certificates")
+    @CrossOrigin(origins = CROSS_ORIGIN)
+    public Certificate createCertificate(@RequestBody Certificate certificate) {
+        return certificateRepository.save(certificate);
+    }
+
+    @GetMapping("/certificates/{id}")
+    @CrossOrigin(origins = CROSS_ORIGIN)
+    public Certificate getCertificateById(@PathVariable(value = "id") Long certificateId ) {
+        return certificateRepository.findById(certificateId)
+                .orElseThrow(() -> new ResourceNotFoundException("Certificate", "id", certificateId));
     }
 }
