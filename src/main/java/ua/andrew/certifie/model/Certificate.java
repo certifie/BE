@@ -52,7 +52,7 @@ public class Certificate implements Serializable {
     private String serialNumber;
 
     @JsonProperty
-    private boolean isExpiry;
+    private boolean expiry;
 
     @NotBlank
     private String description;
@@ -111,10 +111,10 @@ public class Certificate implements Serializable {
     public void setExpiryDate(String expiryDate) {
         this.expiryDate = expiryDate;
     }
-    public boolean setExpiry() {
-        return isExpiry;
+    public boolean getExpiry() {
+        return expiry;
     }
     public void setExpiry(boolean expiry) {
-        isExpiry = expiry;
+        this.expiry = expiry;
     }
 }

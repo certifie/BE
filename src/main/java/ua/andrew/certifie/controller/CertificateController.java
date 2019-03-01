@@ -15,6 +15,7 @@
 package ua.andrew.certifie.controller;
 
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,34 +33,30 @@ import ua.andrew.certifie.repository.CertificateRepository;
 
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/certificates")
+@CrossOrigin("http://localhost:4200")
 public class CertificateController {
-
-    private final String CROSS_ORIGIN = "http://localhost:4200";
 
     @Autowired
     CertificateRepository certificateRepository;
 
-    @GetMapping("/certificates")
-    @CrossOrigin(origins = CROSS_ORIGIN)
+    @GetMapping
     public List<Certificate> getAllCertificates() {
         return certificateRepository.findAll();
     }
 
-    @PostMapping("/certificates")
-    @CrossOrigin(origins = CROSS_ORIGIN)
+    @PostMapping
     public Certificate createCertificate(@RequestBody Certificate certificate) {
         return certificateRepository.save(certificate);
     }
 
-    @GetMapping("/certificates/{id}")
-    @CrossOrigin(origins = CROSS_ORIGIN)
-    public Certificate getCertificateById(@PathVariable(value = "id") Long certificateId ) {
+    @GetMapping("/{id}")
+    public Certificate getCertificateById(@PathVariable(value = "id") Long certificateId) {
         return certificateRepository.findById(certificateId)
                 .orElseThrow(() -> new ResourceNotFoundException("Certificate", "id", certificateId));
     }
 
-    @DeleteMapping("/certificates/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCertificateById(@PathVariable(value = "id") Long certificateId) {
         Certificate certificate = certificateRepository.findById(certificateId)
                 .orElseThrow(() -> new ResourceNotFoundException("Certificate", "id", certificateId));
@@ -66,5 +64,23 @@ public class CertificateController {
         certificateRepository.delete(certificate);
 
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{id}")
+    public Certificate updateCertificate(@PathVariable(value = "id") Long certificateId,
+                                         @Valid @RequestBody Certificate certificateDetails) {
+        Certificate certificate = certificateRepository.findById(certificateId)
+                .orElseThrow(() -> new ResourceNotFoundException("Certificate", "id", certificateId));
+
+        certificate.setTitle(certificateDetails.getTitle());
+        certificate.setCourseUrl(certificateDetails.getCourseUrl());
+        certificate.setIssuer(certificateDetails.getIssuer());
+        certificate.setDescription(certificateDetails.getDescription());
+        certificate.setExpiry(certificateDetails.getExpiry());
+        certificate.setSerialNumber(certificateDetails.getSerialNumber());
+        certificate.setIssueDate(certificateDetails.getIssueDate());
+        certificate.setExpiryDate(certificateDetails.getExpiryDate());
+
+        return certificateRepository.save(certificate);
     }
 }
