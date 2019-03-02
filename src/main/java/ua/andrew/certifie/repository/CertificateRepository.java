@@ -12,18 +12,13 @@
  *
  * ====================================================================
  */
-package ua.andrew.certifie;
+package ua.andrew.certifie.repository;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import ua.andrew.certifie.model.Certificate;
 
 
-@SpringBootApplication
-@EnableJpaAuditing
-public class CertifieApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(CertifieApplication.class, args);
-    }
+@Repository
+public interface CertificateRepository extends JpaRepository<Certificate, Long> {
 }
