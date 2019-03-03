@@ -1,17 +1,3 @@
-/*
- * ====================================================================
- *
- * Follett Software Company
- *
- * Copyright (c) 2019 Follett Software Company
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, is not permitted without a written agreement
- * from Follett Software Company.
- *
- * ====================================================================
- */
 package ua.andrew.certifie.controller;
 
 import java.util.List;
@@ -51,13 +37,13 @@ public class CertificateController {
     }
 
     @GetMapping("/{id}")
-    public Certificate getCertificateById(@PathVariable(value = "id") Long certificateId) {
+    public Certificate getCertificateById(@PathVariable(value = "id") String certificateId) {
         return certificateRepository.findById(certificateId)
                 .orElseThrow(() -> new ResourceNotFoundException("Certificate", "id", certificateId));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteCertificateById(@PathVariable(value = "id") Long certificateId) {
+    public ResponseEntity<?> deleteCertificateById(@PathVariable(value = "id") String certificateId) {
         Certificate certificate = certificateRepository.findById(certificateId)
                 .orElseThrow(() -> new ResourceNotFoundException("Certificate", "id", certificateId));
 
@@ -67,7 +53,7 @@ public class CertificateController {
     }
 
     @PutMapping("/{id}")
-    public Certificate updateCertificate(@PathVariable(value = "id") Long certificateId,
+    public Certificate updateCertificate(@PathVariable(value = "id") String certificateId,
                                          @Valid @RequestBody Certificate certificateDetails) {
         Certificate certificate = certificateRepository.findById(certificateId)
                 .orElseThrow(() -> new ResourceNotFoundException("Certificate", "id", certificateId));
