@@ -1,30 +1,17 @@
-/*
- * ====================================================================
- *
- * Follett Software Company
- *
- * Copyright (c) 2019 Follett Software Company
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, is not permitted without a written agreement
- * from Follett Software Company.
- *
- * ====================================================================
- */
 package ua.andrew.certifie.model;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
@@ -33,8 +20,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class Certificate implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid2")
+    @Column(unique = true)
+    private String id;
 
     @NotBlank
     private String title;
@@ -93,10 +82,10 @@ public class Certificate implements Serializable {
     public void setCourseUrl(String courseUrl) {
         this.courseUrl = courseUrl;
     }
-    public Long getId() {
+    public String getId() {
         return id;
     }
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
     public String getIssueDate() {
